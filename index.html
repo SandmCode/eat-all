@@ -1,0 +1,4492 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+  <meta charset="UTF-8" />
+
+  <meta
+    name="viewport"
+    content="width=device-width, initial-scale=1, viewport-fit=cover"
+  />
+
+  <meta
+    name="theme-color"
+    content="#08091a"
+  />
+
+  <meta
+    name="apple-mobile-web-app-capable"
+    content="yes"
+  />
+
+  <meta
+    name="apple-mobile-web-app-status-bar-style"
+    content="black-translucent"
+  />
+
+  <meta
+    name="apple-mobile-web-app-title"
+    content="今天吃什么"
+  />
+
+  <title>今天吃什么 · 美食塔罗</title>
+
+  <style>
+
+    :root {
+
+      --bg: #070817;
+
+      --text: #f7f4ff;
+
+      --muted: #9b99b4;
+
+      --purple: #9d4dff;
+
+      --purple-light: #c57cff;
+
+      --pink: #ff74c7;
+
+      --gold: #e8ba61;
+
+      --gold-light: #f4d48b;
+
+      --border: rgba(255,255,255,.12);
+
+    }
+
+
+    * {
+
+      box-sizing: border-box;
+
+      -webkit-tap-highlight-color: transparent;
+
+    }
+
+
+    html,
+    body {
+
+      margin: 0;
+
+      min-height: 100%;
+
+      width: 100%;
+
+      background:
+
+        radial-gradient(
+          circle at 18% 8%,
+          rgba(102,76,255,.15),
+          transparent 28%
+        ),
+
+        radial-gradient(
+          circle at 85% 20%,
+          rgba(255,76,181,.12),
+          transparent 26%
+        ),
+
+        linear-gradient(
+          180deg,
+          #060713 0%,
+          #090a1d 55%,
+          #050611 100%
+        );
+
+      color: var(--text);
+
+      font-family:
+        -apple-system,
+        BlinkMacSystemFont,
+        "PingFang SC",
+        "Microsoft YaHei",
+        sans-serif;
+
+      overflow-x: hidden;
+
+    }
+
+
+    body {
+      min-height: 100vh;
+    }
+
+
+    button {
+      font: inherit;
+    }
+
+
+    /* =========================================
+       星空
+    ========================================= */
+
+    .stars {
+
+      position: fixed;
+
+      inset: 0;
+
+      z-index: 0;
+
+      pointer-events: none;
+
+      opacity: .8;
+
+      background-image:
+
+        radial-gradient(
+          circle at 8% 15%,
+          rgba(255,255,255,.85) 0 1px,
+          transparent 1.5px
+        ),
+
+        radial-gradient(
+          circle at 19% 32%,
+          rgba(173,127,255,.9) 0 1px,
+          transparent 1.6px
+        ),
+
+        radial-gradient(
+          circle at 31% 11%,
+          rgba(255,255,255,.75) 0 1px,
+          transparent 1.5px
+        ),
+
+        radial-gradient(
+          circle at 43% 24%,
+          rgba(255,148,224,.8) 0 1px,
+          transparent 1.7px
+        ),
+
+        radial-gradient(
+          circle at 58% 9%,
+          rgba(255,255,255,.75) 0 1px,
+          transparent 1.5px
+        ),
+
+        radial-gradient(
+          circle at 74% 27%,
+          rgba(174,130,255,.8) 0 1px,
+          transparent 1.6px
+        ),
+
+        radial-gradient(
+          circle at 90% 15%,
+          rgba(255,255,255,.9) 0 1px,
+          transparent 1.5px
+        ),
+
+        radial-gradient(
+          circle at 92% 49%,
+          rgba(255,153,223,.75) 0 1px,
+          transparent 1.6px
+        ),
+
+        radial-gradient(
+          circle at 14% 67%,
+          rgba(255,255,255,.75) 0 1px,
+          transparent 1.5px
+        ),
+
+        radial-gradient(
+          circle at 31% 83%,
+          rgba(157,120,255,.8) 0 1px,
+          transparent 1.7px
+        ),
+
+        radial-gradient(
+          circle at 53% 70%,
+          rgba(255,255,255,.8) 0 1px,
+          transparent 1.6px
+        ),
+
+        radial-gradient(
+          circle at 78% 80%,
+          rgba(255,157,226,.75) 0 1px,
+          transparent 1.6px
+        );
+
+    }
+
+
+    /* =========================================
+       主容器
+    ========================================= */
+
+    .app {
+
+      position: relative;
+
+      z-index: 2;
+
+      width: min(100%, 520px);
+
+      margin: 0 auto;
+
+      padding:
+        calc(18px + env(safe-area-inset-top))
+        18px
+        calc(30px + env(safe-area-inset-bottom));
+
+    }
+
+
+    /* =========================================
+       标题
+    ========================================= */
+
+    .header {
+
+      text-align: center;
+
+      padding:
+        6px
+        0
+        18px;
+
+    }
+
+
+    .eyebrow {
+
+      font-size: 10px;
+
+      letter-spacing: .28em;
+
+      color: #aaa8c0;
+
+      margin-bottom: 10px;
+
+    }
+
+
+    h1 {
+
+      margin: 0;
+
+      font-size: 38px;
+
+      line-height: 1;
+
+      font-weight: 800;
+
+      letter-spacing: .08em;
+
+      background:
+        linear-gradient(
+          90deg,
+          #f7b8ff,
+          #c6a7ff,
+          #ffd4ee
+        );
+
+      -webkit-background-clip: text;
+
+      background-clip: text;
+
+      color: transparent;
+
+      text-shadow:
+        0 0 30px rgba(189,94,255,.35);
+
+    }
+
+
+    .subtitle {
+
+      margin: 11px 0 0;
+
+      font-size: 13px;
+
+      color: #aaa8bf;
+
+      letter-spacing: .08em;
+
+    }
+
+
+    /* =========================================
+       分类
+    ========================================= */
+
+    .categories {
+
+      display: flex;
+
+      gap: 8px;
+
+      overflow-x: auto;
+
+      padding: 9px;
+
+      border:
+        1px solid rgba(255,255,255,.09);
+
+      background:
+        rgba(255,255,255,.045);
+
+      border-radius: 22px;
+
+      backdrop-filter: blur(18px);
+
+      scrollbar-width: none;
+
+    }
+
+
+    .categories::-webkit-scrollbar {
+      display: none;
+    }
+
+
+    .category {
+
+      flex: 0 0 auto;
+
+      padding: 9px 16px;
+
+      border-radius: 16px;
+
+      border:
+        1px solid rgba(255,255,255,.08);
+
+      color: #c6c4d8;
+
+      background:
+        rgba(255,255,255,.035);
+
+      font-size: 13px;
+
+      cursor: pointer;
+
+      transition: .22s;
+
+    }
+
+
+    .category.active {
+
+      color: white;
+
+      border-color:
+        rgba(202,132,255,.7);
+
+      background:
+        linear-gradient(
+          135deg,
+          #6842ed,
+          #cb5ed7
+        );
+
+      box-shadow:
+        0 0 24px
+        rgba(163,74,255,.28);
+
+    }
+
+
+    /* =========================================
+       转盘主区域
+    ========================================= */
+
+    .game {
+
+      position: relative;
+
+      margin-top: 13px;
+
+    }
+
+
+    .hint {
+
+      height: 34px;
+
+      display: flex;
+
+      justify-content: center;
+
+      align-items: center;
+
+      color: #aaa6bc;
+
+      font-size: 12px;
+
+      letter-spacing: .06em;
+
+    }
+
+
+    /* =========================================
+       转盘
+    ========================================= */
+
+    .wheel-area {
+
+      position: relative;
+
+      height: 430px;
+
+      margin-top: 2px;
+
+    }
+
+
+    .wheel-glow {
+
+      position: absolute;
+
+      left: 50%;
+
+      top: 52%;
+
+      width: 370px;
+
+      height: 370px;
+
+      transform:
+        translate(-50%, -50%);
+
+      border-radius: 50%;
+
+      background:
+        radial-gradient(
+          circle,
+          rgba(145,70,255,.2),
+          transparent 62%
+        );
+
+      filter: blur(7px);
+
+    }
+
+
+    .wheel {
+
+      position: absolute;
+
+      left: 50%;
+
+      top: 52%;
+
+      width: 330px;
+
+      height: 330px;
+
+      transform:
+        translate(-50%, -50%)
+        rotate(0deg);
+
+      transition: none;
+
+    }
+
+
+    /* 外圈 */
+
+    .wheel::before {
+
+      content: "";
+
+      position: absolute;
+
+      inset: 2px;
+
+      border-radius: 50%;
+
+      border:
+        1px solid
+        rgba(232,184,94,.56);
+
+      box-shadow:
+
+        0 0 0 7px
+        rgba(161,88,255,.045),
+
+        0 0 32px
+        rgba(144,69,255,.22),
+
+        inset 0 0 30px
+        rgba(237,190,93,.06);
+
+    }
+
+
+    .wheel::after {
+
+      content: "";
+
+      position: absolute;
+
+      inset: 15px;
+
+      border-radius: 50%;
+
+      border:
+        1px solid
+        rgba(162,125,255,.2);
+
+    }
+
+
+    /* =========================================
+       牌
+    ========================================= */
+
+    .wheel-card {
+
+      position: absolute;
+
+      left: 50%;
+
+      top: 50%;
+
+      width: 66px;
+
+      height: 108px;
+
+      margin:
+        -54px
+        0
+        0
+        -33px;
+
+      border-radius: 9px;
+
+      border:
+        1px solid
+        rgba(238,199,107,.8);
+
+      background:
+
+        radial-gradient(
+          circle at 50% 38%,
+          rgba(227,169,59,.24),
+          transparent 22%
+        ),
+
+        linear-gradient(
+          135deg,
+          #161530,
+          #17244d 50%,
+          #0c0b1d
+        );
+
+      box-shadow:
+
+        0 8px 18px
+        rgba(0,0,0,.38),
+
+        0 0 13px
+        rgba(161,99,255,.14);
+
+      padding: 0;
+
+      cursor: default;
+
+      transition:
+        transform .22s,
+        filter .22s,
+        opacity .35s;
+
+      appearance: none;
+
+      /*
+        牌阵会持续缓慢旋转；明确使用直接触控，避免移动端把轻点
+        误判成拖动或等待双击缩放，从而出现“点了没反应”。
+      */
+      touch-action: manipulation;
+
+      user-select: none;
+
+      -webkit-user-select: none;
+
+    }
+
+
+    /*
+      仅补上牌阵首尾接缝：左半边的 0 号牌覆盖 17 号牌，
+      右半边仍由 1 号牌正常覆盖，形成连续的环形层叠。
+    */
+    .wheel-card-seam {
+
+      /* 只需高于普通牌，不能越过中央按钮的 z-index: 10。 */
+      z-index: 1;
+
+      clip-path:
+        polygon(
+          0 0,
+          52% 0,
+          52% 100%,
+          0 100%
+        );
+
+      pointer-events: none;
+
+    }
+
+
+    .wheel-card::before {
+
+      content: "";
+
+      position: absolute;
+
+      inset: 6px;
+
+      border:
+        1px solid
+        rgba(239,198,107,.65);
+
+      border-radius: 6px;
+
+      background:
+
+        radial-gradient(
+          circle at 50% 50%,
+          transparent 0 10px,
+          rgba(228,182,84,.46) 11px 12px,
+          transparent 13px
+        );
+
+    }
+
+
+    .wheel-card::after {
+
+      content: "✦";
+
+      position: absolute;
+
+      left: 50%;
+
+      top: 50%;
+
+      transform:
+        translate(-50%, -50%);
+
+      font-size: 17px;
+
+      color:
+        #e9bf69;
+
+      text-shadow:
+        0 0 10px
+        rgba(233,191,105,.55);
+
+    }
+
+
+    /* 只有转完后才能选牌 */
+
+    .wheel.can-pick .wheel-card {
+
+      cursor: pointer;
+
+    }
+
+
+    .wheel.can-pick .wheel-card:active {
+
+      filter: brightness(1.45);
+
+    }
+
+
+    .wheel.can-pick .wheel-card:hover {
+
+      filter: brightness(1.3);
+
+      box-shadow:
+
+        0 8px 18px
+        rgba(0,0,0,.4),
+
+        0 0 25px
+        rgba(180,105,255,.55);
+
+    }
+
+
+    /* 被抽走的原牌 */
+
+    .wheel-card.selected {
+
+      opacity: 0;
+
+      pointer-events: none;
+
+    }
+
+
+    /* =========================================
+       中间按钮
+    ========================================= */
+
+    .spin-button {
+
+      position: absolute;
+
+      left: 50%;
+
+      top: 52%;
+
+      width: 128px;
+
+      height: 128px;
+
+      transform:
+        translate(-50%, -50%);
+
+      border-radius: 50%;
+
+      display: flex;
+
+      justify-content: center;
+
+      align-items: center;
+
+      color: white;
+
+      border:
+        1px solid
+        rgba(255,255,255,.34);
+
+      background:
+
+        radial-gradient(
+          circle at 35% 25%,
+          #bf7cff,
+          #7335d8 45%,
+          #28134d 73%
+        );
+
+      box-shadow:
+
+        0 0 0 7px
+        rgba(157,86,255,.1),
+
+        0 0 42px
+        rgba(145,75,255,.42),
+
+        inset 0 0 30px
+        rgba(255,255,255,.14);
+
+      cursor: pointer;
+
+      z-index: 10;
+
+      transition: .18s;
+
+    }
+
+
+    .spin-button:active {
+
+      transform:
+        translate(-50%, -50%)
+        scale(.95);
+
+    }
+
+
+    .spin-button:disabled {
+
+      opacity: .7;
+
+      cursor: default;
+
+    }
+
+
+    .spin-content {
+
+      text-align: center;
+
+    }
+
+
+    .spin-star {
+
+      display: block;
+
+      font-size: 18px;
+
+      margin-bottom: 6px;
+
+    }
+
+
+    .spin-title {
+
+      display: block;
+
+      font-size: 18px;
+
+      font-weight: 800;
+
+      letter-spacing: .12em;
+
+    }
+
+
+    .spin-subtitle {
+
+      display: block;
+
+      margin-top: 5px;
+
+      font-size: 10px;
+
+      color: #ece0ff;
+
+    }
+
+
+    /* =========================================
+       底部
+    ========================================= */
+
+    .bottom {
+
+      text-align: center;
+
+      margin-top: 2px;
+
+    }
+
+
+    .bottom-text {
+
+      color: #89869e;
+
+      font-size: 11px;
+
+      line-height: 1.7;
+
+    }
+
+
+    .tools {
+
+      margin-top: 7px;
+
+      display: flex;
+
+      justify-content: center;
+
+      gap: 5px;
+
+    }
+
+
+    .mini-button {
+
+      border: 0;
+
+      background: transparent;
+
+      color: #777489;
+
+      padding: 7px 10px;
+
+      font-size: 11px;
+
+      cursor: pointer;
+
+    }
+
+
+    /* =========================================
+       抽牌遮罩
+    ========================================= */
+
+    .reveal-overlay {
+
+      position: fixed;
+
+      inset: 0;
+
+      z-index: 100;
+
+      pointer-events: none;
+
+      opacity: 0;
+
+      transition: opacity .3s ease;
+
+    }
+
+
+    .reveal-overlay.active {
+
+      opacity: 1;
+
+      pointer-events: auto;
+
+    }
+
+
+    .reveal-backdrop {
+
+      position: absolute;
+
+      inset: 0;
+
+      background:
+
+        radial-gradient(
+          circle at center,
+          rgba(100,58,170,.12),
+          rgba(0,0,0,.8) 70%
+        );
+
+      backdrop-filter:
+        blur(7px);
+
+    }
+
+
+    /* =========================================
+       飞出的卡
+    ========================================= */
+
+    .flying-card {
+
+      position: fixed;
+
+      z-index: 120;
+
+      width: 66px;
+
+      height: 108px;
+
+      transform:
+        scale(1);
+
+      border-radius: 12px;
+
+      perspective: 1000px;
+
+      transition:
+
+        left .55s
+          cubic-bezier(.18,.84,.24,1),
+
+        top .55s
+          cubic-bezier(.18,.84,.24,1),
+
+        width .55s
+          cubic-bezier(.18,.84,.24,1),
+
+        height .55s
+          cubic-bezier(.18,.84,.24,1),
+
+        transform .55s
+          cubic-bezier(.18,.84,.24,1);
+
+    }
+
+
+    .flying-inner {
+
+      width: 100%;
+
+      height: 100%;
+
+      position: relative;
+
+      transform-style: preserve-3d;
+
+      transition:
+        transform .75s
+        cubic-bezier(.2,.8,.2,1);
+
+    }
+
+
+    .flying-card.revealed
+    .flying-inner {
+
+      transform:
+        rotateY(180deg);
+
+    }
+
+
+    .card-face {
+
+      position: absolute;
+
+      inset: 0;
+
+      width: 100%;
+
+      height: 100%;
+
+      border-radius: 12px;
+
+      backface-visibility: hidden;
+
+      -webkit-backface-visibility: hidden;
+
+      overflow: hidden;
+
+    }
+
+
+    /* =========================================
+       飞出的牌背
+    ========================================= */
+
+    .card-back {
+
+      border:
+        1px solid
+        rgba(239,198,107,.9);
+
+      background:
+
+        radial-gradient(
+          circle at 50% 38%,
+          rgba(227,169,59,.28),
+          transparent 22%
+        ),
+
+        linear-gradient(
+          135deg,
+          #17152f,
+          #19264f 50%,
+          #0d0c20
+        );
+
+      box-shadow:
+
+        0 20px 55px
+        rgba(0,0,0,.5),
+
+        0 0 30px
+        rgba(169,87,255,.35);
+
+    }
+
+
+    .card-back::before {
+
+      content: "";
+
+      position: absolute;
+
+      inset: 9px;
+
+      border:
+        1px solid
+        rgba(241,201,107,.75);
+
+      border-radius: 8px;
+
+      background:
+
+        radial-gradient(
+          circle at 50% 50%,
+          transparent 0 22px,
+          rgba(227,182,86,.5) 23px 24px,
+          transparent 25px
+        ),
+
+        radial-gradient(
+          circle at 50% 50%,
+          rgba(240,195,91,.5) 0 3px,
+          transparent 4px
+        );
+
+    }
+
+
+    .card-back::after {
+
+      content: "✦";
+
+      position: absolute;
+
+      left: 50%;
+
+      top: 50%;
+
+      transform:
+        translate(-50%, -50%);
+
+      color:
+        #edc26c;
+
+      font-size: 26px;
+
+      text-shadow:
+        0 0 14px
+        rgba(238,195,99,.7);
+
+    }
+
+
+    /* =========================================
+       食物正面
+    ========================================= */
+
+    .card-front {
+
+      transform:
+        rotateY(180deg);
+
+      background:
+        #0c0e1d;
+
+      border:
+        1px solid
+        rgba(235,190,96,.85);
+
+      box-shadow:
+
+        0 25px 70px
+        rgba(0,0,0,.6),
+
+        0 0 35px
+        rgba(174,88,255,.3);
+
+    }
+
+
+    .food-image {
+
+      width: 100%;
+
+      height: 68%;
+
+      object-fit: cover;
+
+      display: block;
+
+      background:
+        #17182c;
+
+    }
+
+
+    .food-image-placeholder {
+
+      width: 100%;
+
+      height: 68%;
+
+      display: flex;
+
+      justify-content: center;
+
+      align-items: center;
+
+      font-size: 75px;
+
+      background:
+
+        radial-gradient(
+          circle at center,
+          rgba(161,76,255,.28),
+          transparent 68%
+        );
+
+    }
+
+
+    .food-info {
+
+      height: 32%;
+
+      padding:
+        14px
+        14px
+        12px;
+
+      display: flex;
+
+      flex-direction: column;
+
+      justify-content: center;
+
+      text-align: center;
+
+    }
+
+
+    .food-small {
+
+      color:
+        #b7a8ca;
+
+      font-size: 11px;
+
+      letter-spacing: .16em;
+
+      margin-bottom: 7px;
+
+    }
+
+
+    .food-name {
+
+      font-size: 23px;
+
+      font-weight: 800;
+
+      letter-spacing: .04em;
+
+      color: white;
+
+    }
+
+
+    .food-category {
+
+      margin-top: 7px;
+
+      color:
+        #8e88a4;
+
+      font-size: 12px;
+
+    }
+
+
+    /* =========================================
+       抽牌后的底部操作
+    ========================================= */
+
+    .reveal-actions {
+
+      position: absolute;
+
+      left: 24px;
+
+      right: 24px;
+
+      bottom:
+        calc(25px + env(safe-area-inset-bottom));
+
+      display: flex;
+
+      gap: 10px;
+
+      z-index: 130;
+
+      opacity: 0;
+
+      transform:
+        translateY(10px);
+
+      transition:
+        .35s ease .65s;
+
+    }
+
+
+    .reveal-overlay.active
+    .reveal-actions {
+
+      opacity: 1;
+
+      transform:
+        translateY(0);
+
+    }
+
+
+    .reveal-action {
+
+      flex: 1;
+
+      padding: 13px;
+
+      border-radius: 16px;
+
+      border:
+        1px solid
+        rgba(255,255,255,.12);
+
+      color: white;
+
+      background:
+        rgba(17,18,37,.8);
+
+      backdrop-filter:
+        blur(16px);
+
+      cursor: pointer;
+
+    }
+
+
+    .reveal-action.main {
+
+      border-color:
+        rgba(168,95,255,.4);
+
+      background:
+
+        linear-gradient(
+          135deg,
+          rgba(103,65,232,.7),
+          rgba(203,87,213,.58)
+        );
+
+    }
+
+
+    .reveal-action.danger {
+
+      color:
+        #ff9dce;
+
+      border-color:
+        rgba(255,114,188,.25);
+
+    }
+
+
+    /* =========================================
+       关闭按钮
+    ========================================= */
+
+    .close-reveal {
+
+      position: absolute;
+
+      right: 18px;
+
+      top:
+        calc(18px + env(safe-area-inset-top));
+
+      width: 42px;
+
+      height: 42px;
+
+      border-radius: 50%;
+
+      z-index: 140;
+
+      border:
+        1px solid
+        rgba(255,255,255,.14);
+
+      background:
+        rgba(15,16,32,.68);
+
+      color: white;
+
+      font-size: 24px;
+
+      line-height: 1;
+
+      cursor: pointer;
+
+      backdrop-filter:
+        blur(14px);
+
+    }
+
+
+    /* =========================================
+       底部面板（自定义菜品 / 重置确认）
+    ========================================= */
+
+    .sheet-overlay {
+
+      position: fixed;
+
+      inset: 0;
+
+      z-index: 200;
+
+      pointer-events: none;
+
+      opacity: 0;
+
+      transition: opacity .28s ease;
+
+    }
+
+
+    .sheet-overlay.active {
+
+      opacity: 1;
+
+      pointer-events: auto;
+
+    }
+
+
+    .sheet-backdrop {
+
+      position: absolute;
+
+      inset: 0;
+
+      background:
+        rgba(0,0,0,.62);
+
+      backdrop-filter:
+        blur(6px);
+
+    }
+
+
+    .sheet-panel {
+
+      position: absolute;
+
+      left: 0;
+
+      right: 0;
+
+      bottom: 0;
+
+      padding:
+        18px
+        18px
+        calc(18px + env(safe-area-inset-bottom));
+
+      border-radius:
+        22px 22px 0 0;
+
+      background:
+
+        linear-gradient(
+          180deg,
+          #1a1832,
+          #0f1020 60%
+        );
+
+      border-top:
+        1px solid
+        rgba(255,255,255,.12);
+
+      box-shadow:
+        0 -16px 48px
+        rgba(0,0,0,.45);
+
+      transform:
+        translateY(110%);
+
+      transition:
+        transform .32s
+        cubic-bezier(.2,.8,.2,1);
+
+    }
+
+
+    .sheet-overlay.active
+    .sheet-panel {
+
+      transform:
+        translateY(0);
+
+    }
+
+
+    .sheet-handle {
+
+      width: 42px;
+
+      height: 4px;
+
+      margin:
+        0 auto 16px;
+
+      border-radius: 99px;
+
+      background:
+        rgba(255,255,255,.18);
+
+    }
+
+
+    .sheet-title {
+
+      margin: 0 0 6px;
+
+      color: white;
+
+      font-size: 18px;
+
+      font-weight: 750;
+
+      letter-spacing: .04em;
+
+      text-align: center;
+
+    }
+
+
+    .sheet-desc {
+
+      margin: 0 0 16px;
+
+      color: #8e88a4;
+
+      font-size: 12px;
+
+      line-height: 1.6;
+
+      text-align: center;
+
+    }
+
+
+    .sheet-view {
+
+      display: none;
+
+    }
+
+
+    .sheet-view.active {
+
+      display: block;
+
+    }
+
+
+    .sheet-field {
+
+      margin-bottom: 14px;
+
+    }
+
+
+    .sheet-label {
+
+      display: block;
+
+      margin-bottom: 8px;
+
+      color: #b7a8ca;
+
+      font-size: 12px;
+
+      letter-spacing: .08em;
+
+    }
+
+
+    .sheet-input {
+
+      width: 100%;
+
+      box-sizing: border-box;
+
+      padding: 14px 14px;
+
+      border-radius: 14px;
+
+      border:
+        1px solid
+        rgba(255,255,255,.14);
+
+      background:
+        rgba(8,9,20,.72);
+
+      color: white;
+
+      /* 16px 避免 iOS 聚焦时整页放大 */
+      font-size: 16px;
+
+      outline: none;
+
+      appearance: none;
+
+      -webkit-appearance: none;
+
+    }
+
+
+    .sheet-input:focus {
+
+      border-color:
+        rgba(168,95,255,.55);
+
+      box-shadow:
+        0 0 0 3px
+        rgba(145,75,255,.18);
+
+    }
+
+
+    .sheet-chips {
+
+      display: flex;
+
+      flex-wrap: wrap;
+
+      gap: 8px;
+
+    }
+
+
+    .sheet-chip {
+
+      min-height: 40px;
+
+      padding: 0 14px;
+
+      border-radius: 999px;
+
+      border:
+        1px solid
+        rgba(255,255,255,.14);
+
+      background:
+        rgba(17,18,37,.72);
+
+      color: #d8d0ee;
+
+      font-size: 14px;
+
+      cursor: pointer;
+
+      -webkit-tap-highlight-color: transparent;
+
+    }
+
+
+    .sheet-chip.active {
+
+      color: white;
+
+      border-color:
+        rgba(168,95,255,.55);
+
+      background:
+
+        linear-gradient(
+          135deg,
+          rgba(103,65,232,.72),
+          rgba(203,87,213,.5)
+        );
+
+    }
+
+
+    .sheet-chip:disabled {
+
+      opacity: .38;
+
+      cursor: default;
+
+    }
+
+
+    .sheet-chip.count {
+
+      min-width: calc(50% - 4px);
+
+      border-radius: 14px;
+
+      text-align: center;
+
+    }
+
+
+    .sheet-chip .chip-count {
+
+      margin-left: 6px;
+
+      color: #edc26c;
+
+      font-variant-numeric: tabular-nums;
+
+    }
+
+
+    .sheet-chip:disabled
+    .chip-count {
+
+      color: #8e88a4;
+
+    }
+
+
+    .sheet-actions.stack {
+
+      flex-direction: column;
+
+    }
+
+
+    .sheet-hint {
+
+      min-height: 18px;
+
+      margin: 4px 0 12px;
+
+      color: #ff9dce;
+
+      font-size: 12px;
+
+      text-align: center;
+
+    }
+
+
+    .sheet-actions {
+
+      display: flex;
+
+      gap: 10px;
+
+      margin-top: 4px;
+
+    }
+
+
+    .sheet-btn {
+
+      flex: 1;
+
+      min-height: 48px;
+
+      padding: 13px;
+
+      border-radius: 16px;
+
+      border:
+        1px solid
+        rgba(255,255,255,.12);
+
+      color: white;
+
+      background:
+        rgba(17,18,37,.8);
+
+      font-size: 15px;
+
+      cursor: pointer;
+
+      -webkit-tap-highlight-color: transparent;
+
+    }
+
+
+    .sheet-btn.main {
+
+      border-color:
+        rgba(168,95,255,.4);
+
+      background:
+
+        linear-gradient(
+          135deg,
+          rgba(103,65,232,.7),
+          rgba(203,87,213,.58)
+        );
+
+    }
+
+
+    .sheet-btn.ghost {
+
+      color: #b7a8ca;
+
+    }
+
+
+    .sheet-btn:disabled {
+
+      opacity: .42;
+
+      cursor: default;
+
+    }
+
+
+    /* =========================================
+       手机适配
+    ========================================= */
+
+    @media (max-width: 390px) {
+
+      .app {
+
+        padding-left: 14px;
+
+        padding-right: 14px;
+
+      }
+
+
+      h1 {
+
+        font-size: 34px;
+
+      }
+
+
+      .wheel {
+
+        width: 290px;
+
+        height: 290px;
+
+      }
+
+
+      .wheel-glow {
+
+        width: 315px;
+
+        height: 315px;
+
+      }
+
+
+      .wheel-card {
+
+        width: 59px;
+
+        height: 98px;
+
+        margin:
+          -49px
+          0
+          0
+          -29.5px;
+
+      }
+
+
+      .wheel-area {
+
+        height: 395px;
+
+      }
+
+
+      .spin-button {
+
+        width: 116px;
+
+        height: 116px;
+
+      }
+
+    }
+
+  </style>
+</head>
+
+
+<body>
+
+
+<div class="stars"></div>
+
+
+<main class="app">
+
+
+  <!-- =====================================
+       标题
+  ====================================== -->
+
+  <header class="header">
+
+    <div class="eyebrow">
+      FOOD TAROT · RANDOM DINING
+    </div>
+
+    <h1>
+      今天吃什么
+    </h1>
+
+    <p class="subtitle">
+      先转一转，再亲手抽一张
+    </p>
+
+  </header>
+
+
+  <!-- =====================================
+       分类
+  ====================================== -->
+
+  <nav class="categories">
+
+    <button
+      class="category active"
+      data-category="全部"
+    >
+      全部
+    </button>
+
+    <button
+      class="category"
+      data-category="正餐"
+    >
+      正餐
+    </button>
+
+    <button
+      class="category"
+      data-category="小吃"
+    >
+      小吃
+    </button>
+
+    <button
+      class="category"
+      data-category="夜宵"
+    >
+      夜宵
+    </button>
+
+    <button
+      class="category"
+      data-category="饮品"
+    >
+      饮品
+    </button>
+
+    <button
+      class="category"
+      data-category="甜点"
+    >
+      甜点
+    </button>
+
+  </nav>
+
+
+  <!-- =====================================
+       游戏区
+  ====================================== -->
+
+  <section class="game">
+
+
+    <div
+      class="hint"
+      id="hint"
+    >
+      先转一转，让牌阵替你洗牌
+    </div>
+
+
+    <!-- 转盘 -->
+
+    <div class="wheel-area">
+
+      <div class="wheel-glow"></div>
+
+
+      <div
+        class="wheel"
+        id="wheel"
+      ></div>
+
+
+      <!-- 中央按钮 -->
+
+      <button
+        class="spin-button"
+        id="spinButton"
+      >
+
+        <span class="spin-content">
+
+          <span class="spin-star">
+            ✦
+          </span>
+
+          <span class="spin-title">
+            转一转
+          </span>
+
+          <span
+            class="spin-subtitle"
+            id="spinSubtitle"
+          >
+            洗牌
+          </span>
+
+        </span>
+
+      </button>
+
+    </div>
+
+
+    <!-- ===================================
+         底部说明
+    ==================================== -->
+
+    <div class="bottom">
+
+      <div
+        class="bottom-text"
+        id="bottomText"
+      >
+        转盘停下后，选择一张你最有感觉的牌
+      </div>
+
+
+      <div class="tools">
+
+        <button
+          class="mini-button"
+          id="customButton"
+        >
+          ＋ 自定义菜品
+        </button>
+
+        <button
+          class="mini-button"
+          id="resetButton"
+        >
+          重置“不喜欢”
+        </button>
+
+      </div>
+
+    </div>
+
+
+  </section>
+
+</main>
+
+
+<!-- =========================================
+     抽牌遮罩
+========================================== -->
+
+<div
+  class="reveal-overlay"
+  id="revealOverlay"
+>
+
+  <div class="reveal-backdrop"></div>
+
+
+  <button
+    class="close-reveal"
+    id="closeReveal"
+  >
+    ×
+  </button>
+
+
+  <div
+    class="reveal-actions"
+    id="revealActions"
+  >
+
+    <button
+      class="reveal-action main"
+      id="againButton"
+    >
+      再转一轮
+    </button>
+
+    <button
+      class="reveal-action danger"
+      id="dislikeButton"
+    >
+      不喜欢
+    </button>
+
+  </div>
+
+</div>
+
+
+<!-- =========================================
+     底部面板：自定义菜品 / 重置不喜欢
+========================================== -->
+
+<div
+  class="sheet-overlay"
+  id="sheetOverlay"
+>
+
+  <div
+    class="sheet-backdrop"
+    id="sheetBackdrop"
+  ></div>
+
+
+  <div
+    class="sheet-panel"
+    role="dialog"
+    aria-modal="true"
+  >
+
+    <div class="sheet-handle"></div>
+
+
+    <!-- 自定义菜品 -->
+
+    <div
+      class="sheet-view"
+      id="customSheet"
+    >
+
+      <h2 class="sheet-title">
+        自定义菜品
+      </h2>
+
+      <p class="sheet-desc">
+        加入你想抽到的菜，会保存在本机
+      </p>
+
+
+      <div class="sheet-field">
+
+        <label
+          class="sheet-label"
+          for="customNameInput"
+        >
+          菜名
+        </label>
+
+        <input
+          class="sheet-input"
+          id="customNameInput"
+          type="text"
+          maxlength="24"
+          placeholder="例如：番茄肥牛饭"
+          autocomplete="off"
+          enterkeyhint="done"
+        >
+
+      </div>
+
+
+      <div class="sheet-field">
+
+        <span class="sheet-label">
+          分类
+        </span>
+
+        <div
+          class="sheet-chips"
+          id="customCategoryChips"
+        >
+
+          <button
+            type="button"
+            class="sheet-chip active"
+            data-category="正餐"
+          >
+            正餐
+          </button>
+
+          <button
+            type="button"
+            class="sheet-chip"
+            data-category="小吃"
+          >
+            小吃
+          </button>
+
+          <button
+            type="button"
+            class="sheet-chip"
+            data-category="夜宵"
+          >
+            夜宵
+          </button>
+
+          <button
+            type="button"
+            class="sheet-chip"
+            data-category="饮品"
+          >
+            饮品
+          </button>
+
+          <button
+            type="button"
+            class="sheet-chip"
+            data-category="甜点"
+          >
+            甜点
+          </button>
+
+        </div>
+
+      </div>
+
+
+      <div
+        class="sheet-hint"
+        id="customHint"
+      ></div>
+
+
+      <div class="sheet-actions">
+
+        <button
+          type="button"
+          class="sheet-btn ghost"
+          id="customCancel"
+        >
+          取消
+        </button>
+
+        <button
+          type="button"
+          class="sheet-btn main"
+          id="customSubmit"
+        >
+          加入
+        </button>
+
+      </div>
+
+    </div>
+
+
+    <!-- 重置不喜欢 -->
+
+    <div
+      class="sheet-view"
+      id="resetSheet"
+    >
+
+      <h2 class="sheet-title">
+        重置“不喜欢”
+      </h2>
+
+      <p class="sheet-desc">
+        可只恢复某一类，也可以一键全部恢复
+      </p>
+
+
+      <div class="sheet-field">
+
+        <span class="sheet-label">
+          按类型恢复
+        </span>
+
+        <div
+          class="sheet-chips"
+          id="resetCategoryChips"
+        >
+
+          <button
+            type="button"
+            class="sheet-chip count"
+            data-category="正餐"
+          >
+            正餐<span class="chip-count">0</span>
+          </button>
+
+          <button
+            type="button"
+            class="sheet-chip count"
+            data-category="小吃"
+          >
+            小吃<span class="chip-count">0</span>
+          </button>
+
+          <button
+            type="button"
+            class="sheet-chip count"
+            data-category="夜宵"
+          >
+            夜宵<span class="chip-count">0</span>
+          </button>
+
+          <button
+            type="button"
+            class="sheet-chip count"
+            data-category="饮品"
+          >
+            饮品<span class="chip-count">0</span>
+          </button>
+
+          <button
+            type="button"
+            class="sheet-chip count"
+            data-category="甜点"
+          >
+            甜点<span class="chip-count">0</span>
+          </button>
+
+        </div>
+
+      </div>
+
+
+      <div
+        class="sheet-hint"
+        id="resetHint"
+      ></div>
+
+
+      <div class="sheet-actions stack">
+
+        <button
+          type="button"
+          class="sheet-btn main"
+          id="resetConfirm"
+        >
+          一键全部重置
+        </button>
+
+        <button
+          type="button"
+          class="sheet-btn ghost"
+          id="resetCancel"
+        >
+          取消
+        </button>
+
+      </div>
+
+    </div>
+
+  </div>
+
+</div>
+
+
+<script>
+
+
+/* =========================================================
+   HowToCook 图片地址
+========================================================= */
+
+const HOW_TO_COOK_BASE =
+  "https://raw.githubusercontent.com/Anduin2017/HowToCook/master/";
+
+
+/* =========================================================
+   菜品
+========================================================= */
+
+const FOODS = [
+
+  /* ========= 正餐 ========= */
+
+  ["宫保鸡丁","正餐","dishes/meat_dish/宫保鸡丁/宫保鸡丁.jpg"],
+
+  ["回锅肉","正餐","dishes/meat_dish/回锅肉/1.jpeg"],
+
+  ["红烧肉","正餐","dishes/meat_dish/红烧肉/000.jpg"],
+
+  ["清蒸鲈鱼","正餐","dishes/aquatic/清蒸鲈鱼/清蒸鲈鱼.jpg"],
+
+  ["油焖大虾","正餐","dishes/aquatic/油焖大虾/油焖大虾.jpg"],
+
+  ["扬州炒饭","正餐","dishes/staple/扬州炒饭/veg.png"],
+
+  ["日式咖喱饭","正餐","dishes/staple/日式咖喱饭/成品.jpg"],
+
+  ["青椒肉丝盖饭","正餐",""],
+
+  ["鱼香肉丝盖饭","正餐",""],
+
+  ["番茄炒蛋盖饭","正餐",""],
+
+  ["土豆牛肉盖饭","正餐",""],
+
+  ["黄焖鸡米饭","正餐",""],
+
+  ["红烧排骨","正餐",""],
+
+  ["糖醋里脊","正餐",""],
+
+  ["可乐鸡翅","正餐",""],
+
+  ["蛋炒饭","正餐",""],
+
+  ["虾仁炒饭","正餐",""],
+
+  ["炒面","正餐",""],
+
+  ["炒河粉","正餐",""],
+
+  ["炒米粉","正餐",""],
+
+  ["牛肉面","正餐",""],
+
+  ["重庆小面","正餐",""],
+
+  ["炸酱面","正餐",""],
+
+  ["螺蛳粉","正餐",""],
+
+  ["麻辣烫","正餐",""],
+
+  ["水煮鱼","正餐",""],
+
+  ["酸菜鱼","正餐",""],
+
+  ["番茄牛腩饭","正餐",""],
+
+  ["烤肉拌饭","正餐",""],
+
+  ["韩式拌饭","正餐",""],
+
+  ["寿司","正餐",""],
+
+  ["照烧鸡饭","正餐",""],
+
+  ["梅菜扣肉","正餐",""],
+
+  ["麻婆豆腐","正餐",""],
+
+  ["地三鲜","正餐",""],
+
+  ["酸辣土豆丝","正餐",""],
+
+  ["干煸四季豆","正餐",""],
+
+  ["小炒黄牛肉","正餐",""],
+
+  ["香辣鸡翅","正餐",""],
+
+  ["烤鸭饭","正餐",""],
+
+  ["鸡排饭","正餐",""],
+
+  ["卤肉饭","正餐",""],
+
+  ["牛肉盖饭","正餐",""],
+
+  ["咖喱牛肉饭","正餐",""],
+
+  ["意大利面","正餐",""],
+
+  ["芝士焗饭","正餐",""],
+
+  ["石锅拌饭","正餐",""],
+
+  ["三杯鸡","正餐",""],
+
+
+  /* ========= 小吃 ========= */
+
+  ["烤冷面","小吃",""],
+
+  ["生煎包","小吃",""],
+
+  ["煎饺","小吃",""],
+
+  ["锅贴","小吃",""],
+
+  ["鸡蛋灌饼","小吃",""],
+
+  ["手抓饼","小吃",""],
+
+  ["饭团","小吃",""],
+
+  ["章鱼小丸子","小吃",""],
+
+  ["炸鸡","小吃",""],
+
+  ["鸡米花","小吃",""],
+
+  ["薯条","小吃",""],
+
+  ["炸串","小吃",""],
+
+  ["关东煮","小吃",""],
+
+  ["烤肠","小吃",""],
+
+  ["臭豆腐","小吃",""],
+
+  ["煎饼果子","小吃",""],
+
+  ["肉夹馍","小吃",""],
+
+  ["凉皮","小吃",""],
+
+  ["酸辣粉","小吃",""],
+
+  ["鸭脖","小吃",""],
+
+  ["烧麦","小吃",""],
+
+  ["小笼包","小吃",""],
+
+  ["糯米鸡","小吃",""],
+
+  ["春卷","小吃",""],
+
+
+  /* ========= 夜宵 ========= */
+
+  ["烧烤","夜宵",""],
+
+  ["烤串","夜宵",""],
+
+  ["小龙虾","夜宵",""],
+
+  ["麻辣小龙虾","夜宵",""],
+
+  ["炒花甲","夜宵",""],
+
+  ["爆炒鱿鱼","夜宵",""],
+
+  ["烤鸡翅","夜宵",""],
+
+  ["烤茄子","夜宵",""],
+
+  ["炒粉","夜宵",""],
+
+  ["炒面","夜宵",""],
+
+  ["炒螺蛳","夜宵",""],
+
+  ["炸鸡","夜宵",""],
+
+  ["炸串","夜宵",""],
+
+  ["麻辣烫","夜宵",""],
+
+
+  /* ========= 饮品 ========= */
+
+  ["奶茶","饮品",""],
+
+  ["珍珠奶茶","饮品",""],
+
+  ["柠檬茶","饮品",""],
+
+  ["果茶","饮品",""],
+
+  ["冰咖啡","饮品",""],
+
+  ["美式咖啡","饮品",""],
+
+  ["拿铁","饮品",""],
+
+  ["椰汁","饮品",""],
+
+  ["可乐","饮品",""],
+
+  ["橙汁","饮品",""],
+
+  ["杨枝甘露","饮品",""],
+
+  ["气泡水","饮品",""],
+
+
+  /* ========= 甜点 ========= */
+
+  ["冰淇淋","甜点",""],
+
+  ["蛋挞","甜点",""],
+
+  ["提拉米苏","甜点",""],
+
+  ["奶油蛋糕","甜点",""],
+
+  ["泡芙","甜点",""],
+
+  ["双皮奶","甜点",""],
+
+  ["芋圆","甜点",""],
+
+  ["红豆沙","甜点",""],
+
+  ["麻薯","甜点",""],
+
+  ["可丽饼","甜点",""],
+
+  ["布丁","甜点",""],
+
+  ["芒果班戟","甜点",""],
+
+  ["芝士蛋糕","甜点",""]
+
+];
+
+
+/* =========================================================
+   分类 Emoji
+========================================================= */
+
+const CATEGORY_EMOJI = {
+
+  "正餐": "🍚",
+
+  "小吃": "🍢",
+
+  "夜宵": "🌙",
+
+  "饮品": "🥤",
+
+  "甜点": "🍰"
+
+};
+
+
+/* =========================================================
+   LocalStorage
+========================================================= */
+
+const CUSTOM_KEY =
+  "eat_all_custom_v2";
+
+const DISLIKE_KEY =
+  "eat_all_dislike_v2";
+
+
+function getCustomFoods() {
+
+  try {
+
+    return JSON.parse(
+      localStorage.getItem(CUSTOM_KEY) || "[]"
+    );
+
+  } catch {
+
+    return [];
+
+  }
+
+}
+
+
+function getDislikedFoods() {
+
+  try {
+
+    return new Set(
+      JSON.parse(
+        localStorage.getItem(DISLIKE_KEY) || "[]"
+      )
+    );
+
+  } catch {
+
+    return new Set();
+
+  }
+
+}
+
+
+function saveDislikedFoods(disliked) {
+
+  localStorage.setItem(
+    DISLIKE_KEY,
+    JSON.stringify(
+      [...disliked]
+    )
+  );
+
+}
+
+
+function getFoodCategoryMap() {
+
+  const map =
+    new Map();
+
+
+  getAllFoods().forEach(food => {
+
+    map.set(
+      food[0],
+      food[1]
+    );
+
+  });
+
+
+  return map;
+
+}
+
+
+function getDislikedCountsByCategory() {
+
+  const disliked =
+    getDislikedFoods();
+
+  const categoryMap =
+    getFoodCategoryMap();
+
+  const counts = {
+    "正餐": 0,
+    "小吃": 0,
+    "夜宵": 0,
+    "饮品": 0,
+    "甜点": 0
+  };
+
+
+  disliked.forEach(name => {
+
+    const category =
+      categoryMap.get(name);
+
+    if (
+      category &&
+      counts[category] !== undefined
+    ) {
+
+      counts[category] += 1;
+
+    }
+
+  });
+
+
+  return counts;
+
+}
+
+
+/* =========================================================
+   状态
+========================================================= */
+
+let currentCategory =
+  "全部";
+
+let spinning =
+  false;
+
+let canPick =
+  false;
+
+let selectedFood =
+  null;
+
+let selectedElement =
+  null;
+
+let currentRotation =
+  0;
+
+let flyingCard =
+  null;
+
+let spinFrameId =
+  null;
+
+let lastSpinTime =
+  0;
+
+
+/* =========================================================
+   DOM
+========================================================= */
+
+const wheel =
+  document.getElementById("wheel");
+
+const spinButton =
+  document.getElementById("spinButton");
+
+const spinSubtitle =
+  document.getElementById("spinSubtitle");
+
+const hint =
+  document.getElementById("hint");
+
+const bottomText =
+  document.getElementById("bottomText");
+
+const overlay =
+  document.getElementById("revealOverlay");
+
+
+/* =========================================================
+   当前菜单
+========================================================= */
+
+function getAllFoods() {
+
+  return [
+    ...FOODS,
+    ...getCustomFoods()
+  ];
+
+}
+
+
+function getAvailableFoods() {
+
+  const disliked =
+    getDislikedFoods();
+
+  return getAllFoods().filter(
+    food => {
+
+      const category =
+        food[1];
+
+      const name =
+        food[0];
+
+      const categoryOK =
+        currentCategory === "全部" ||
+        category === currentCategory;
+
+      const dislikeOK =
+        !disliked.has(name);
+
+      return (
+        categoryOK &&
+        dislikeOK
+      );
+
+    }
+  );
+
+}
+
+
+/* =========================================================
+   构建转盘牌阵
+========================================================= */
+
+function buildWheel() {
+
+  wheel.innerHTML = "";
+
+  const cardCount =
+    18;
+
+  const radius =
+    window.innerWidth <= 390
+      ? 112
+      : 129;
+
+
+  for (
+    let i = 0;
+    i < cardCount;
+    i++
+  ) {
+
+    const card =
+      document.createElement("button");
+
+    card.className =
+      "wheel-card";
+
+
+    const angle =
+      (360 / cardCount) * i;
+
+
+    const x =
+      Math.cos(
+        (angle - 90) *
+        Math.PI /
+        180
+      ) * radius;
+
+
+    const y =
+      Math.sin(
+        (angle - 90) *
+        Math.PI /
+        180
+      ) * radius;
+
+
+    card.style.transform =
+      `
+        translate(${x}px, ${y}px)
+        rotate(${angle}deg)
+      `;
+
+
+    card.dataset.index =
+      i;
+
+
+    /*
+      不再只依赖 click：牌阵持续移动时，按下和抬起可能落在不同牌上，
+      浏览器会取消 click。pointerdown 在用户触到牌的瞬间就锁定选择，
+      移动端和鼠标端都会稳定响应。
+    */
+    card.addEventListener(
+      "pointerdown",
+      event => {
+
+        if (
+          !canPick ||
+          spinning ||
+          (
+            event.pointerType === "mouse" &&
+            event.button !== 0
+          )
+        ) {
+
+          return;
+
+        }
+
+
+        event.preventDefault();
+
+
+        selectCard(
+          card,
+          i
+        );
+
+      }
+    );
+
+
+    /* 保留键盘 Enter / Space 选牌能力。 */
+    card.addEventListener(
+      "click",
+      event => {
+
+        if (
+          event.detail !== 0 ||
+          !canPick ||
+          spinning
+        ) {
+
+          return;
+
+        }
+
+
+        selectCard(
+          card,
+          i
+        );
+
+      }
+    );
+
+
+    wheel.appendChild(card);
+
+  }
+
+
+  /*
+    牌阵的层叠关系是一个闭环：
+    1 压 0、2 压 1……17 压 16，同时还要 0 压 17。
+    单一 z-index 无法表达这种循环关系，因此复制 0 号牌的左半边，
+    仅用于覆盖 17 号牌与 0 号牌相接的一角。
+  */
+  const firstCard =
+    wheel.querySelector(
+      '.wheel-card[data-index="0"]'
+    );
+
+  if (firstCard) {
+
+    const seamOverlay =
+      firstCard.cloneNode(true);
+
+    seamOverlay.classList.add(
+      "wheel-card-seam"
+    );
+
+    seamOverlay.removeAttribute(
+      "data-index"
+    );
+
+    seamOverlay.setAttribute(
+      "aria-hidden",
+      "true"
+    );
+
+    seamOverlay.tabIndex =
+      -1;
+
+    wheel.appendChild(
+      seamOverlay
+    );
+  }
+
+}
+
+
+/* =========================================================
+   分类
+========================================================= */
+
+document
+  .querySelectorAll(".category")
+  .forEach(button => {
+
+    button.addEventListener(
+      "click",
+      () => {
+
+        if (spinning) {
+
+          return;
+
+        }
+
+
+        currentCategory =
+          button.dataset.category;
+
+
+        document
+          .querySelectorAll(".category")
+          .forEach(item => {
+
+            item.classList.toggle(
+              "active",
+              item === button
+            );
+
+          });
+
+
+        resetRound();
+
+
+        hint.textContent =
+          currentCategory === "全部"
+
+            ? "先转一转，让牌阵替你洗牌"
+
+            : `先转一转，只在「${currentCategory}」里抽取`;
+
+      }
+    );
+
+  });
+
+
+/* =========================================================
+   转盘
+========================================================= */
+
+spinButton.addEventListener(
+  "click",
+  spinWheel
+);
+
+
+function stopSpinAnimation() {
+
+  if (spinFrameId !== null) {
+
+    cancelAnimationFrame(
+      spinFrameId
+    );
+
+    spinFrameId =
+      null;
+
+  }
+
+}
+
+
+function applyWheelRotation() {
+
+  wheel.style.transform =
+    `
+      translate(-50%, -50%)
+      rotate(${currentRotation}deg)
+    `;
+
+}
+
+
+function spinWheel() {
+
+  if (spinning) {
+
+    return;
+
+  }
+
+
+  const available =
+    getAvailableFoods();
+
+
+  if (!available.length) {
+
+    hint.textContent =
+      `${currentCategory} 已经没有可抽的菜品了`;
+
+    return;
+
+  }
+
+
+  spinning =
+    true;
+
+  canPick =
+    false;
+
+
+  wheel.classList.remove(
+    "can-pick"
+  );
+
+
+  spinButton.disabled =
+    true;
+
+
+  spinSubtitle.textContent =
+    "洗牌中…";
+
+
+  hint.textContent =
+    "牌阵正在快速旋转…";
+
+
+  bottomText.textContent =
+    "等牌阵慢下来，再选择一张你最有感觉的牌";
+
+
+  wheel.style.transition =
+    "none";
+
+
+  stopSpinAnimation();
+
+
+  /*
+    先快速转几圈并减速，
+    之后保持缓慢持续旋转，不再停死
+  */
+
+  const startSpeed =
+    2.15;
+
+  /*
+    慢转 16°/s（一整圈约 22.5s）。
+  */
+  const slowSpeed =
+    0.016;
+
+  const decelerateMs =
+    3800;
+
+  const startTime =
+    performance.now();
+
+  lastSpinTime =
+    startTime;
+
+  let enteredSlow =
+    false;
+
+
+  function frame(now) {
+
+    const dt =
+      Math.min(
+        now - lastSpinTime,
+        48
+      );
+
+    lastSpinTime =
+      now;
+
+
+    const elapsed =
+      now - startTime;
+
+
+    let speed;
+
+
+    if (elapsed < decelerateMs) {
+
+      const t =
+        elapsed / decelerateMs;
+
+      const eased =
+        1 -
+        Math.pow(
+          1 - t,
+          3
+        );
+
+      speed =
+        startSpeed +
+        (
+          slowSpeed -
+          startSpeed
+        ) * eased;
+
+    } else {
+
+      speed =
+        slowSpeed;
+
+
+      if (!enteredSlow) {
+
+        enteredSlow =
+          true;
+
+        spinning =
+          false;
+
+        canPick =
+          true;
+
+        wheel.classList.add(
+          "can-pick"
+        );
+
+        spinButton.disabled =
+          false;
+
+        spinSubtitle.textContent =
+          "选择一张";
+
+        hint.textContent =
+          "牌阵慢下来了 · 选一张你最有感觉的牌";
+
+        bottomText.textContent =
+          "点击一张牌，它会从牌阵中被抽出来";
+
+      }
+
+    }
+
+
+    currentRotation +=
+      speed * dt;
+
+    applyWheelRotation();
+
+
+    spinFrameId =
+      requestAnimationFrame(
+        frame
+      );
+
+  }
+
+
+  spinFrameId =
+    requestAnimationFrame(
+      frame
+    );
+
+}
+
+
+/* =========================================================
+   随机给每张牌一个食品数据
+========================================================= */
+
+function getRoundFoods() {
+
+  const available =
+    getAvailableFoods();
+
+
+  const pool =
+    [...available];
+
+
+  /*
+    洗牌
+  */
+
+  for (
+    let i = pool.length - 1;
+    i > 0;
+    i--
+  ) {
+
+    const j =
+      Math.floor(
+        Math.random() *
+        (i + 1)
+      );
+
+    [
+      pool[i],
+      pool[j]
+    ] =
+    [
+      pool[j],
+      pool[i]
+    ];
+
+  }
+
+
+  return pool;
+
+}
+
+
+/* =========================================================
+   当前这一轮牌阵
+========================================================= */
+
+let roundFoods = [];
+
+
+function prepareRound() {
+
+  roundFoods =
+    getRoundFoods();
+
+}
+
+
+/* =========================================================
+   每次转之前重新随机对应的牌
+========================================================= */
+
+const oldSpinWheel =
+  spinWheel;
+
+
+/*
+  覆盖一下 spinWheel，
+  在正式旋转前生成牌对应的菜品
+*/
+
+spinButton.removeEventListener(
+  "click",
+  spinWheel
+);
+
+spinButton.addEventListener(
+  "click",
+  () => {
+
+    if (spinning) {
+
+      return;
+
+    }
+
+
+    prepareRound();
+
+    oldSpinWheel();
+
+  }
+);
+
+
+/* =========================================================
+   选择卡牌
+========================================================= */
+
+function selectCard(
+  cardElement,
+  index
+) {
+
+  if (selectedElement) {
+
+    return;
+
+  }
+
+
+  if (!roundFoods.length) {
+
+    prepareRound();
+
+  }
+
+
+  /*
+    防止超过菜品数量
+  */
+
+  const food =
+    roundFoods[
+      index %
+      roundFoods.length
+    ];
+
+
+  selectedFood =
+    food;
+
+  selectedElement =
+    cardElement;
+
+
+  canPick =
+    false;
+
+
+  /*
+    抽出时先停住慢转，方便飞出定位
+  */
+
+  stopSpinAnimation();
+
+
+  wheel.classList.remove(
+    "can-pick"
+  );
+
+
+  cardElement.classList.add(
+    "selected"
+  );
+
+
+  const seamOverlay =
+    index === 0
+      ? wheel.querySelector(
+          ".wheel-card-seam"
+        )
+      : null;
+
+
+  if (seamOverlay) {
+
+    seamOverlay.classList.add(
+      "selected"
+    );
+  }
+
+
+  showFlyingCard(
+    food,
+    cardElement
+  );
+
+
+  /*
+    抽出后原位补齐：
+    不是其他牌挪过来，而是该位置重新显出一张牌，
+    牌阵数量始终保持不变
+  */
+
+  setTimeout(() => {
+
+    cardElement.classList.remove(
+      "selected"
+    );
+
+
+    if (seamOverlay) {
+
+      seamOverlay.classList.remove(
+        "selected"
+      );
+    }
+
+
+    const available =
+      getAvailableFoods();
+
+
+    if (
+      available.length &&
+      roundFoods.length
+    ) {
+
+      roundFoods[
+        index %
+        roundFoods.length
+      ] =
+        available[
+          Math.floor(
+            Math.random() *
+            available.length
+          )
+        ];
+
+    }
+
+  }, 480);
+
+}
+
+
+/* =========================================================
+   构建飞出的卡牌
+========================================================= */
+
+function showFlyingCard(
+  food,
+  sourceElement
+) {
+
+  const rect =
+    sourceElement.getBoundingClientRect();
+
+
+  /*
+    显示遮罩
+  */
+
+  overlay.classList.add(
+    "active"
+  );
+
+
+  /*
+    创建卡片
+  */
+
+  const card =
+    document.createElement("div");
+
+  card.className =
+    "flying-card";
+
+
+  card.style.left =
+    rect.left + "px";
+
+
+  card.style.top =
+    rect.top + "px";
+
+
+  card.style.width =
+    rect.width + "px";
+
+
+  card.style.height =
+    rect.height + "px";
+
+
+  card.innerHTML = `
+
+    <div class="flying-inner">
+
+      <div class="card-face card-back"></div>
+
+      <div class="card-face card-front">
+
+        ${
+          food[2]
+
+          ?
+
+          `
+            <img
+              class="food-image"
+              src="${getImageURL(food)}"
+              alt="${escapeHTML(food[0])}"
+            />
+          `
+
+          :
+
+          `
+            <div class="food-image-placeholder">
+              ${CATEGORY_EMOJI[food[1]] || "🍴"}
+            </div>
+          `
+        }
+
+        <div class="food-info">
+
+          <div class="food-small">
+            YOUR FOOD TAROT
+          </div>
+
+          <div class="food-name">
+            ${escapeHTML(food[0])}
+          </div>
+
+          <div class="food-category">
+            ${CATEGORY_EMOJI[food[1]] || "🍴"}
+            ${escapeHTML(food[1])}
+          </div>
+
+        </div>
+
+      </div>
+
+    </div>
+
+  `;
+
+
+  overlay.appendChild(
+    card
+  );
+
+
+  flyingCard =
+    card;
+
+
+  /*
+    让浏览器先渲染初始位置
+  */
+
+  requestAnimationFrame(() => {
+
+    requestAnimationFrame(() => {
+
+      const targetWidth =
+        Math.min(
+          255,
+          window.innerWidth - 80
+        );
+
+
+      const targetHeight =
+        targetWidth * 1.52;
+
+
+      const targetLeft =
+        (
+          window.innerWidth -
+          targetWidth
+        ) / 2;
+
+
+      const targetTop =
+        (
+          window.innerHeight -
+          targetHeight
+        ) / 2 -
+        28;
+
+
+      /*
+        第一阶段：
+        卡牌从牌阵中被向下抽出来
+      */
+
+      card.style.left =
+        targetLeft + "px";
+
+
+      card.style.top =
+        (
+          targetTop + 75
+        ) + "px";
+
+
+      card.style.width =
+        targetWidth + "px";
+
+
+      card.style.height =
+        targetHeight + "px";
+
+
+      card.style.transform =
+        "scale(1.05)";
+
+
+      /*
+        第二阶段：
+        弹到正中间
+      */
+
+      setTimeout(() => {
+
+        card.style.top =
+          targetTop + "px";
+
+
+        card.style.transform =
+          "scale(1)";
+
+      }, 430);
+
+
+      /*
+        第三阶段：
+        翻牌
+      */
+
+      setTimeout(() => {
+
+        card.classList.add(
+          "revealed"
+        );
+
+
+        const image =
+          card.querySelector(
+            ".food-image"
+          );
+
+
+        if (image) {
+
+          image.onerror =
+            () => {
+
+              image.outerHTML = `
+
+                <div
+                  class="food-image-placeholder"
+                >
+                  ${
+                    CATEGORY_EMOJI[food[1]]
+                    || "🍴"
+                  }
+                </div>
+
+              `;
+
+            };
+
+        }
+
+      }, 850);
+
+    });
+
+  });
+
+}
+
+
+/* =========================================================
+   图片 URL
+========================================================= */
+
+function getImageURL(food) {
+
+  if (!food[2]) {
+
+    return "";
+
+  }
+
+
+  return (
+    HOW_TO_COOK_BASE +
+    food[2]
+      .split("/")
+      .map(
+        part =>
+          encodeURIComponent(part)
+      )
+      .join("/")
+  );
+
+}
+
+
+/* =========================================================
+   HTML 转义
+========================================================= */
+
+function escapeHTML(text) {
+
+  return text
+    .replace(/&/g, "&amp;")
+    .replace(/</g, "&lt;")
+    .replace(/>/g, "&gt;")
+    .replace(/"/g, "&quot;")
+    .replace(/'/g, "&#039;");
+
+}
+
+
+/* =========================================================
+   关闭抽牌
+========================================================= */
+
+document
+  .getElementById("closeReveal")
+  .addEventListener(
+    "click",
+    closeReveal
+  );
+
+
+function closeReveal() {
+
+  if (flyingCard) {
+
+    flyingCard.remove();
+
+  }
+
+
+  flyingCard =
+    null;
+
+
+  if (selectedElement) {
+
+    selectedElement.classList.remove(
+      "selected"
+    );
+
+  }
+
+
+  selectedElement =
+    null;
+
+  selectedFood =
+    null;
+
+
+  overlay.classList.remove(
+    "active"
+  );
+
+
+  /*
+    关闭后可以再转
+  */
+
+  canPick =
+    false;
+
+
+  wheel.classList.remove(
+    "can-pick"
+  );
+
+
+  hint.textContent =
+    "再转一转，让命运重新洗牌";
+
+}
+
+
+/* =========================================================
+   再转一轮
+========================================================= */
+
+document
+  .getElementById("againButton")
+  .addEventListener(
+    "click",
+    () => {
+
+      closeReveal();
+
+      setTimeout(() => {
+
+        spinButton.click();
+
+      }, 300);
+
+    }
+  );
+
+
+/* =========================================================
+   不喜欢
+========================================================= */
+
+document
+  .getElementById("dislikeButton")
+  .addEventListener(
+    "click",
+    () => {
+
+      if (!selectedFood) {
+
+        return;
+
+      }
+
+
+      const name =
+        selectedFood[0];
+
+
+      const disliked =
+        getDislikedFoods();
+
+
+      disliked.add(
+        name
+      );
+
+
+      localStorage.setItem(
+        DISLIKE_KEY,
+        JSON.stringify(
+          [...disliked]
+        )
+      );
+
+
+      closeReveal();
+
+
+      bottomText.textContent =
+        `已排除「${name}」，下次不会抽到它`;
+
+    }
+  );
+
+
+/* =========================================================
+   底部面板（替代手机端不友好的 prompt / confirm）
+========================================================= */
+
+const sheetOverlay =
+  document.getElementById("sheetOverlay");
+
+const customSheet =
+  document.getElementById("customSheet");
+
+const resetSheet =
+  document.getElementById("resetSheet");
+
+const customNameInput =
+  document.getElementById("customNameInput");
+
+const customHint =
+  document.getElementById("customHint");
+
+const customCategoryChips =
+  document.getElementById("customCategoryChips");
+
+const resetCategoryChips =
+  document.getElementById("resetCategoryChips");
+
+const resetHint =
+  document.getElementById("resetHint");
+
+const resetConfirm =
+  document.getElementById("resetConfirm");
+
+
+let selectedCustomCategory =
+  "正餐";
+
+
+function refreshResetSheet() {
+
+  const counts =
+    getDislikedCountsByCategory();
+
+  let total =
+    0;
+
+
+  resetCategoryChips
+    .querySelectorAll(".sheet-chip")
+    .forEach(chip => {
+
+      const category =
+        chip.dataset.category;
+
+      const count =
+        counts[category] || 0;
+
+      total +=
+        count;
+
+      const countEl =
+        chip.querySelector(".chip-count");
+
+      if (countEl) {
+
+        countEl.textContent =
+          String(count);
+
+      }
+
+
+      chip.disabled =
+        count === 0;
+
+    });
+
+
+  resetConfirm.disabled =
+    total === 0;
+
+
+  resetHint.textContent =
+    total === 0
+      ? "当前没有被排除的菜品"
+      : `已排除 ${total} 道菜，点类型恢复或全部重置`;
+
+}
+
+
+function openSheet(view) {
+
+  customSheet.classList.toggle(
+    "active",
+    view === "custom"
+  );
+
+  resetSheet.classList.toggle(
+    "active",
+    view === "reset"
+  );
+
+
+  sheetOverlay.classList.add(
+    "active"
+  );
+
+
+  if (view === "custom") {
+
+    customHint.textContent =
+      "";
+
+    customNameInput.value =
+      "";
+
+    selectedCustomCategory =
+      "正餐";
+
+    customCategoryChips
+      .querySelectorAll(".sheet-chip")
+      .forEach(chip => {
+
+        chip.classList.toggle(
+          "active",
+          chip.dataset.category === "正餐"
+        );
+
+      });
+
+
+    setTimeout(() => {
+
+      customNameInput.focus();
+
+    }, 280);
+
+  }
+
+
+  if (view === "reset") {
+
+    refreshResetSheet();
+
+  }
+
+}
+
+
+function closeSheet() {
+
+  sheetOverlay.classList.remove(
+    "active"
+  );
+
+
+  customNameInput.blur();
+
+}
+
+
+document.addEventListener(
+  "keydown",
+  event => {
+
+    if (
+      event.key === "Escape" &&
+      sheetOverlay.classList.contains("active")
+    ) {
+
+      closeSheet();
+
+    }
+
+  }
+);
+
+
+document
+  .getElementById("sheetBackdrop")
+  .addEventListener(
+    "click",
+    closeSheet
+  );
+
+
+document
+  .getElementById("customCancel")
+  .addEventListener(
+    "click",
+    closeSheet
+  );
+
+
+document
+  .getElementById("resetCancel")
+  .addEventListener(
+    "click",
+    closeSheet
+  );
+
+
+customCategoryChips
+  .querySelectorAll(".sheet-chip")
+  .forEach(chip => {
+
+    chip.addEventListener(
+      "click",
+      () => {
+
+        selectedCustomCategory =
+          chip.dataset.category;
+
+        customCategoryChips
+          .querySelectorAll(".sheet-chip")
+          .forEach(item => {
+
+            item.classList.toggle(
+              "active",
+              item === chip
+            );
+
+          });
+
+      }
+    );
+
+  });
+
+
+/* =========================================================
+   自定义菜品
+========================================================= */
+
+document
+  .getElementById("customButton")
+  .addEventListener(
+    "click",
+    () => {
+
+      openSheet("custom");
+
+    }
+  );
+
+
+document
+  .getElementById("customSubmit")
+  .addEventListener(
+    "click",
+    submitCustomFood
+  );
+
+
+customNameInput.addEventListener(
+  "keydown",
+  event => {
+
+    if (event.key === "Enter") {
+
+      event.preventDefault();
+
+      submitCustomFood();
+
+    }
+
+  }
+);
+
+
+function submitCustomFood() {
+
+  const cleanName =
+    customNameInput.value
+      .trim();
+
+
+  if (!cleanName) {
+
+    customHint.textContent =
+      "先写一个菜名";
+
+    customNameInput.focus();
+
+    return;
+
+  }
+
+
+  const custom =
+    getCustomFoods();
+
+
+  custom.push([
+    cleanName,
+    selectedCustomCategory,
+    ""
+  ]);
+
+
+  localStorage.setItem(
+    CUSTOM_KEY,
+    JSON.stringify(custom)
+  );
+
+
+  closeSheet();
+
+
+  bottomText.textContent =
+    `已加入「${cleanName}」· ${selectedCustomCategory}`;
+
+}
+
+
+/* =========================================================
+   重置不喜欢
+========================================================= */
+
+document
+  .getElementById("resetButton")
+  .addEventListener(
+    "click",
+    () => {
+
+      openSheet("reset");
+
+    }
+  );
+
+
+resetCategoryChips
+  .querySelectorAll(".sheet-chip")
+  .forEach(chip => {
+
+    chip.addEventListener(
+      "click",
+      () => {
+
+        if (chip.disabled) {
+
+          return;
+
+        }
+
+
+        const category =
+          chip.dataset.category;
+
+        const restored =
+          resetDislikedByCategory(
+            category
+          );
+
+
+        closeSheet();
+
+
+        bottomText.textContent =
+          restored > 0
+            ? `已恢复「${category}」里的 ${restored} 道菜`
+            : `「${category}」没有可恢复的菜`;
+
+      }
+    );
+
+  });
+
+
+resetConfirm.addEventListener(
+  "click",
+  () => {
+
+    if (resetConfirm.disabled) {
+
+      return;
+
+    }
+
+
+    localStorage.removeItem(
+      DISLIKE_KEY
+    );
+
+
+    closeSheet();
+
+
+    bottomText.textContent =
+      "已经恢复全部菜品";
+
+  }
+);
+
+
+function resetDislikedByCategory(category) {
+
+  const disliked =
+    getDislikedFoods();
+
+  const categoryMap =
+    getFoodCategoryMap();
+
+  let restored =
+    0;
+
+
+  [...disliked].forEach(name => {
+
+    if (
+      categoryMap.get(name) === category
+    ) {
+
+      disliked.delete(
+        name
+      );
+
+      restored +=
+        1;
+
+    }
+
+  });
+
+
+  if (disliked.size === 0) {
+
+    localStorage.removeItem(
+      DISLIKE_KEY
+    );
+
+  } else {
+
+    saveDislikedFoods(
+      disliked
+    );
+
+  }
+
+
+  return restored;
+
+}
+
+
+/* =========================================================
+   重置当前回合
+========================================================= */
+
+function resetRound() {
+
+  stopSpinAnimation();
+
+
+  canPick =
+    false;
+
+  spinning =
+    false;
+
+  selectedFood =
+    null;
+
+  selectedElement =
+    null;
+
+  roundFoods =
+    [];
+
+
+  wheel.classList.remove(
+    "can-pick"
+  );
+
+
+  if (flyingCard) {
+
+    flyingCard.remove();
+
+  }
+
+
+  flyingCard =
+    null;
+
+
+  overlay.classList.remove(
+    "active"
+  );
+
+
+  wheel.style.transition =
+    "none";
+
+
+  currentRotation =
+    0;
+
+
+  applyWheelRotation();
+
+
+  wheel
+    .querySelectorAll(
+      ".wheel-card.selected"
+    )
+    .forEach(card => {
+
+      card.classList.remove(
+        "selected"
+      );
+
+    });
+
+}
+
+
+/* =========================================================
+   初始化
+========================================================= */
+
+buildWheel();
+
+prepareRound();
+
+
+window.addEventListener(
+  "resize",
+  () => {
+
+    if (
+      spinning ||
+      spinFrameId !== null ||
+      overlay.classList.contains("active")
+    ) {
+
+      return;
+
+    }
+
+
+    buildWheel();
+
+    applyWheelRotation();
+
+  }
+);
+
+</script>
+
+</body>
+
+</html>

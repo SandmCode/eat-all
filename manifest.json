@@ -1,0 +1,9 @@
+{
+  "name": "今天吃什么 · 美食塔罗",
+  "short_name": "今天吃什么",
+  "start_url": "./",
+  "display": "standalone",
+  "background_color": "#070817",
+  "theme_color": "#070817",
+  "lang": "zh-CN"
+}
